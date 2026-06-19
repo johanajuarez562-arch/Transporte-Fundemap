@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paradas de micros - Rosario</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    :root{--ink:#17232d;--muted:#61707b;--paper:#f7f5ef;--panel:#fff;--m1:#e4572e;--m2:#147d64;--line:#dde2df}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--paper)}
+    .app{display:grid;grid-template-columns:360px 1fr;height:100%}.side{z-index:500;display:flex;flex-direction:column;min-width:0;background:var(--panel);border-right:1px solid var(--line);box-shadow:3px 0 18px #22313b1a}
+    header{padding:22px 22px 14px;border-bottom:1px solid var(--line)}h1{font-size:24px;line-height:1.1;margin:0 0 8px;letter-spacing:-.03em}header p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}.filter{border:1px solid var(--line);border-radius:12px;padding:10px 11px;background:#fff;cursor:pointer;text-align:left;font-weight:750}.filter small{display:block;color:var(--muted);font-weight:500;margin-top:2px}.filter[aria-pressed="true"].m1{border-color:var(--m1);background:#fff4ef}.filter[aria-pressed="true"].m2{border-color:var(--m2);background:#edf8f5}
+    .search{margin-top:10px;width:100%;border:1px solid var(--line);border-radius:11px;padding:10px 12px;font:inherit;outline:none}.search:focus{border-color:#7e8f9a;box-shadow:0 0 0 3px #7e8f9a1d}
+    .list{overflow:auto;padding:10px 12px 18px}.stop{display:grid;grid-template-columns:34px 1fr;gap:9px;width:100%;padding:9px;border:0;border-radius:10px;background:transparent;text-align:left;cursor:pointer;color:inherit}.stop:hover,.stop.active{background:#f0f3f1}.badge{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;color:#fff;font-size:12px;font-weight:800}.stop.m1 .badge{background:var(--m1)}.stop.m2 .badge{background:var(--m2)}.stop-name{display:block;font-size:13px;font-weight:650;line-height:1.3}.stop-meta{display:block;font-size:11px;color:var(--muted);margin-top:3px}.restricted{color:#a4491d}
+    #map{height:100%;width:100%}.pin{border:0;background:transparent}.pin span{display:grid;place-items:center;width:26px;height:26px;border:2px solid #fff;border-radius:50%;color:#fff;font:800 11px/1 system-ui;box-shadow:0 2px 7px #17232d55}.pin.m1 span{background:var(--m1)}.pin.m2 span{background:var(--m2)}
+    .leaflet-popup-content-wrapper{border-radius:12px}.popup b{font-size:14px}.popup p{margin:5px 0 0;color:var(--muted);font-size:12px}.key{position:absolute;right:14px;bottom:26px;z-index:450;background:#fffffff2;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px;box-shadow:0 2px 10px #17232d1f}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.note{padding:10px 22px;border-top:1px solid var(--line);font-size:11px;line-height:1.4;color:var(--muted)}
+    @media(max-width:760px){.app{grid-template-columns:1fr;grid-template-rows:44% 56%}.side{border-right:0;border-bottom:1px solid var(--line)}header{padding:14px 16px 10px}h1{font-size:20px}.filters{margin-top:10px}.list{padding-bottom:10px}.note{display:none}.key{bottom:12px}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <aside class="side">
+    <header><h1>Paradas de micros</h1><p>Rosario, Villa Gobernador Gálvez y Planta Fundemap. Seleccioná una parada para verla en el mapa.</p>
+      <div class="filters"><button class="filter m1" data-micro="1" aria-pressed="true">Micro 1<small>31 paradas</small></button><button class="filter m2" data-micro="2" aria-pressed="true">Micro 2<small>36 paradas</small></button></div>
+      <input class="search" type="search" placeholder="Buscar calle o parada…" aria-label="Buscar parada">
+    </header>
+    <div class="list" aria-live="polite"></div>
+    <div class="note">Las ubicaciones se calcularon con OpenStreetMap. Las paradas 29 a 33 del Micro 2 tienen servicio restringido según el PDF.</div>
+  </aside>
+  <section style="position:relative"><div id="map" aria-label="Mapa de paradas"></div><div class="key"><span class="dot" style="background:var(--m1)"></span>Micro 1&nbsp;&nbsp;<span class="dot" style="background:var(--m2)"></span>Micro 2</div></section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const raw=[
+[1,1,"Bv. 27 de Febrero y Necochea",-32.9701551,-60.6295085],[1,2,"Bv. 27 de Febrero y 1.º de Mayo",-32.9690657,-60.6349698],[1,3,"Bv. 27 de Febrero y Av. San Martín",-32.9677951,-60.642004],[1,4,"Av. San Martín y Saavedra",-32.9782997,-60.6441181],[1,5,"Av. San Martín y Av. Uriburu",-32.9907397,-60.646769],[1,6,"Av. Uriburu y Corrientes",-32.990976,-60.6537035],[1,7,"Bv. Oroño y Av. Uriburu",-32.9912305,-60.6651605],[1,8,"Bv. Oroño y Mr. Ross",-32.9856059,-60.66376],[1,9,"Bv. Oroño y Centeno",-32.9819661,-60.6629992],[1,10,"Bv. Oroño y Bv. Seguí",-32.9762848,-60.6615814],[1,11,"Alvear y Bv. Seguí",-32.9760626,-60.6628314],[1,12,"Bv. Seguí y Av. Ovidio Lagos",-32.9749121,-60.6693051],[1,13,"Av. Ovidio Lagos y Jorge Cura",-32.9698129,-60.6680382],[1,14,"Av. Ovidio Lagos y Amenábar",-32.9680975,-60.6676384],[1,15,"Bv. 27 de Febrero y Richieri",-32.9631396,-60.6681321],[1,16,"Av. Francia y Cerrito",-32.957005,-60.6693263],[1,17,"Av. Presidente Perón e Iriondo",-32.9564791,-60.673561],[1,18,"Av. Presidente Perón y Bv. Avellaneda",-32.957543,-60.683746],[1,19,"Av. Presidente Perón y Río de Janeiro",-32.9578424,-60.6852857],[1,20,"Av. Presidente Perón y Pascual Rosas",-32.9585135,-60.6911437],[1,21,"Av. Presidente Perón y Lima",-32.9581883,-60.6882264],[1,22,"Av. Presidente Perón y Matienzo (Shell)",-32.9590997,-60.6939465],[1,23,"Av. Presidente Perón y Liniers",-32.961115,-60.6977187],[1,24,"Av. Presidente Perón y Rouillón",-32.9628128,-60.7013134],[1,25,"Av. Circunvalación y Av. Presidente Perón",-32.9709989,-60.7166854],[1,26,"Colectora y Mendoza",-32.9405374,-60.7217787],[1,27,"Av. Circunvalación y Juan José Paso",-32.92033,-60.7238485],[1,28,"Colectora y Juan B. Justo",-32.9152032,-60.7232447],[1,29,"Av. Circunvalación y Av. Sorrento",-32.9085307,-60.7240394],[1,30,"Palliere, barrio Rucci",-32.8882188,-60.7143416],[1,31,"Planta Fundemap",-32.72432,-60.76673],
+[2,1,"V.G.G. (Pueblo Nuevo)",-33.0154616,-60.6152738],[2,2,"Presidente Perón y San Diego",-33.0188162,-60.6184297],[2,3,"V.G.G. (Plaza de la Madre)",-33.0246664,-60.6250501],[2,4,"Av. Ayacucho y Av. Circunvalación",-33.0146668,-60.635251],[2,5,"Av. Batlle Ordóñez y Leiva",-33.0086109,-60.6376619],[2,6,"Av. Batlle Ordóñez y Salva",-33.0086637,-60.6399448],[2,7,"Av. Batlle Ordóñez y Arteaga",-33.0087766,-60.6435118],[2,8,"Av. Batlle Ordóñez y Laprida",-33.0088775,-60.6467488],[2,9,"Av. Batlle Ordóñez y Av. San Martín",-33.008975,-60.6507054],[2,10,"Av. Circunvalación y Av. San Martín",-33.0157363,-60.6351342],[2,11,"Av. Circunvalación y España",-33.0159445,-60.6566534],[2,12,"Av. Batlle Ordóñez y Bv. Oroño",-33.0092976,-60.6649072],[2,13,"Av. Arijón y Alvear",-33.003552,-60.6662436],[2,14,"Av. Arijón y Pueyrredón",-33.0036395,-60.6690932],[2,15,"Av. Arijón y Av. Ovidio Lagos",-33.0038713,-60.6761798],[2,16,"Av. Francia y Sánchez Bustamante",-33.0028331,-60.6777569],[2,17,"Av. Francia y Aurora",-32.9994877,-60.6779061],[2,18,"Av. Francia y Lamadrid",-32.9980106,-60.6778153],[2,19,"Av. Francia y Estado de Israel",-32.9927413,-60.6782285],[2,20,"Av. Francia y Av. Uriburu",-32.9917105,-60.678072],[2,21,"Bv. Avellaneda y Av. Uriburu",-32.9918846,-60.6887262],[2,22,"Bv. Avellaneda y Mosconi",-32.983612,-60.6885999],[2,23,"Bv. Avellaneda y Cisnero",-32.978309,-60.6889938],[2,24,"Bv. Avellaneda y Biedma",-32.9740651,-60.6878563],[2,25,"Bv. Avellaneda y Bv. Seguí",-32.9717975,-60.6874393],[2,26,"Bv. Seguí y Río de Janeiro",-32.9714324,-60.6886998],[2,27,"Bv. Seguí y Rouillón",-32.970825,-60.7009873],[2,28,"Bv. Seguí y Presidente Perón",-32.9715862,-60.7188222],[2,29,"Presidente Perón y Las Palmeras",-32.9804133,-60.7361229],[2,30,"Las Palmeras y El Picaflor",-32.97172,-60.734032],[2,31,"Las Palmeras y Deán Funes",-32.9681582,-60.733384],[2,32,"Las Palmeras y Av. Rivarola",-32.966525,-60.7330702],[2,33,"Rivarola y Colombres",-32.9661793,-60.7247994],[2,34,"Av. Rivarola y Colectora",-32.9660426,-60.7198926],[2,35,"Colectora y 27 de Febrero",-32.9596757,-60.7218123],[2,36,"Planta Fundemap",-32.72432,-60.76673]
+].map(([micro,number,name,lat,lng])=>({micro,number,name,lat,lng,restricted:micro===2&&number>=29&&number<=33}));
+
+const map=L.map('map',{zoomControl:true}).setView([-32.96,-60.68],12);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+const groups={1:L.layerGroup().addTo(map),2:L.layerGroup().addTo(map)}, markers=new Map(), lines={};
+const colors={1:'#e4572e',2:'#147d64'};
+for(const m of [1,2]){
+  const pts=raw.filter(x=>x.micro===m).map(x=>[x.lat,x.lng]);
+  lines[m]=L.polyline(pts,{color:colors[m],weight:3,opacity:.68,dashArray:'7 7'}).addTo(groups[m]);
+}
+for(const s of raw){
+  const icon=L.divIcon({className:`pin m${s.micro}`,html:`<span>${s.number}</span>`,iconSize:[26,26],iconAnchor:[13,13]});
+  const marker=L.marker([s.lat,s.lng],{icon}).bindPopup(`<div class="popup"><b>Micro ${s.micro} · Parada ${s.number}</b><p>${s.name}</p>${s.restricted?'<p class="restricted">Servicio restringido</p>':''}</div>`).addTo(groups[s.micro]);
+  markers.set(`${s.micro}-${s.number}`,marker);
+}
+map.fitBounds(L.latLngBounds(raw.map(s=>[s.lat,s.lng])),{padding:[35,35]});
+const active={1:true,2:true}, list=document.querySelector('.list'), search=document.querySelector('.search');
+function render(){
+  const q=search.value.trim().toLocaleLowerCase('es');
+  const shown=raw.filter(s=>active[s.micro]&&s.name.toLocaleLowerCase('es').includes(q));
+  list.innerHTML=shown.map(s=>`<button class="stop m${s.micro}" data-key="${s.micro}-${s.number}"><span class="badge">${s.number}</span><span><span class="stop-name">${s.name}</span><span class="stop-meta">Micro ${s.micro}${s.restricted?' · <span class="restricted">servicio restringido</span>':''}</span></span></button>`).join('')||'<p style="padding:12px;color:var(--muted);font-size:13px">No se encontraron paradas.</p>';
+}
+document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{const m=+btn.dataset.micro;active[m]=!active[m];btn.setAttribute('aria-pressed',active[m]);active[m]?groups[m].addTo(map):groups[m].removeFrom(map);render()}));
+search.addEventListener('input',render);
+list.addEventListener('click',e=>{const btn=e.target.closest('.stop');if(!btn)return;list.querySelectorAll('.stop').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const marker=markers.get(btn.dataset.key);map.setView(marker.getLatLng(),16,{animate:true});marker.openPopup()});
+render();
+</script>
+</body>
+</html>
