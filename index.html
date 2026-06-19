@@ -11,24 +11,27 @@
     .app{display:grid;grid-template-columns:360px 1fr;height:100%}.side{z-index:500;display:flex;flex-direction:column;min-width:0;background:var(--panel);border-right:1px solid var(--line);box-shadow:3px 0 18px #22313b1a}
     header{padding:22px 22px 14px;border-bottom:1px solid var(--line)}h1{font-size:24px;line-height:1.1;margin:0 0 8px;letter-spacing:-.03em}header p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
     .filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}.filter{border:1px solid var(--line);border-radius:12px;padding:10px 11px;background:#fff;cursor:pointer;text-align:left;font-weight:750}.filter small{display:block;color:var(--muted);font-weight:500;margin-top:2px}.filter[aria-pressed="true"].m1{border-color:var(--m1);background:#fff4ef}.filter[aria-pressed="true"].m2{border-color:var(--m2);background:#edf8f5}
-    .search{margin-top:10px;width:100%;border:1px solid var(--line);border-radius:11px;padding:10px 12px;font:inherit;outline:none}.search:focus{border-color:#7e8f9a;box-shadow:0 0 0 3px #7e8f9a1d}
+    input{font:inherit}.search,.address-input{width:100%;border:1px solid var(--line);border-radius:11px;padding:10px 12px;outline:none}.search{margin-top:10px}.search:focus,.address-input:focus{border-color:#7e8f9a;box-shadow:0 0 0 3px #7e8f9a1d}.address-form{position:relative;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.address-label{display:block;margin-bottom:6px;font-size:12px;font-weight:800}.address-row{display:grid;grid-template-columns:1fr auto;gap:7px}.address-button,.gps-button{border:0;border-radius:10px;background:var(--ink);color:#fff;padding:0 13px;font-weight:750;cursor:pointer}.gps-button{width:100%;margin-top:7px;padding:9px 12px;background:#e9efec;color:var(--ink)}.address-button:disabled,.gps-button:disabled{opacity:.55;cursor:wait}.address-status{min-height:17px;margin-top:7px;color:var(--muted);font-size:11px;line-height:1.4}.clear-location{border:0;background:none;padding:0;color:#176b59;text-decoration:underline;cursor:pointer;font:inherit}.suggestions{position:absolute;z-index:1100;top:75px;left:0;right:66px;overflow:auto;max-height:230px;margin:0;padding:5px;list-style:none;border:1px solid var(--line);border-radius:11px;background:#fff;box-shadow:0 9px 24px #17232d2b}.suggestions[hidden]{display:none}.suggestion{display:block;width:100%;border:0;border-radius:8px;padding:9px 10px;background:#fff;color:var(--ink);text-align:left;cursor:pointer;font-size:12px;line-height:1.35}.suggestion:hover,.suggestion.active{background:#edf3f0}.suggestion-main{display:block;font-weight:750}.suggestion-detail{display:block;margin-top:2px;color:var(--muted);font-size:11px}.suggestion-message{padding:9px 10px;color:var(--muted);font-size:12px}
     .list{overflow:auto;padding:10px 12px 18px}.stop{display:grid;grid-template-columns:34px 1fr;gap:9px;width:100%;padding:9px;border:0;border-radius:10px;background:transparent;text-align:left;cursor:pointer;color:inherit}.stop:hover,.stop.active{background:#f0f3f1}.badge{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;color:#fff;font-size:12px;font-weight:800}.stop.m1 .badge{background:var(--m1)}.stop.m2 .badge{background:var(--m2)}.stop-name{display:block;font-size:13px;font-weight:650;line-height:1.3}.stop-meta{display:block;font-size:11px;color:var(--muted);margin-top:3px}.restricted{color:#a4491d}
     #map{height:100%;width:100%}.pin{border:0;background:transparent}.pin span{display:grid;place-items:center;width:26px;height:26px;border:2px solid #fff;border-radius:50%;color:#fff;font:800 11px/1 system-ui;box-shadow:0 2px 7px #17232d55}.pin.m1 span{background:var(--m1)}.pin.m2 span{background:var(--m2)}
-    .leaflet-popup-content-wrapper{border-radius:12px}.popup b{font-size:14px}.popup p{margin:5px 0 0;color:var(--muted);font-size:12px}.key{position:absolute;right:14px;bottom:26px;z-index:450;background:#fffffff2;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px;box-shadow:0 2px 10px #17232d1f}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.note{padding:10px 22px;border-top:1px solid var(--line);font-size:11px;line-height:1.4;color:var(--muted)}
-    @media(max-width:760px){.app{grid-template-columns:1fr;grid-template-rows:44% 56%}.side{border-right:0;border-bottom:1px solid var(--line)}header{padding:14px 16px 10px}h1{font-size:20px}.filters{margin-top:10px}.list{padding-bottom:10px}.note{display:none}.key{bottom:12px}}
+    .leaflet-popup-content-wrapper{border-radius:12px}.popup b{font-size:14px}.popup p{margin:5px 0 0;color:var(--muted);font-size:12px}.key{position:absolute;right:14px;bottom:26px;z-index:450;background:#fffffff2;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px;box-shadow:0 2px 10px #17232d1f}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.note{padding:10px 22px;border-top:1px solid var(--line);font-size:11px;line-height:1.4;color:var(--muted)}.distance{color:#176b59;font-weight:750}
+    .mobile-tabs{display:none}
+    @media(max-width:760px){.app{display:block;position:relative;height:100%}.side{height:100%;overflow:hidden;padding-bottom:68px;border-right:0}.map-panel{display:none;height:100%}.app.mobile-map .side{display:none}.app.mobile-map .map-panel{display:block}header{padding:14px 16px 10px}h1{font-size:20px}.filters{margin-top:10px}.list{padding-bottom:10px}.note{display:none}.key{bottom:76px}.mobile-tabs{position:fixed;z-index:2000;right:50%;bottom:max(12px,env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr;width:210px;padding:4px;border:1px solid var(--line);border-radius:14px;background:#fffffff2;box-shadow:0 6px 22px #17232d30;transform:translateX(50%);backdrop-filter:blur(8px)}.mobile-tab{border:0;border-radius:10px;padding:10px 12px;background:transparent;color:var(--ink);font-weight:800}.mobile-tab[aria-pressed="true"]{background:var(--ink);color:#fff}}
   </style>
 </head>
 <body>
 <main class="app">
   <aside class="side">
     <header><h1>Paradas de micros</h1><p>Rosario, Villa Gobernador Gálvez y Planta Fundemap. Seleccioná una parada para verla en el mapa.</p>
+      <form class="address-form"><label class="address-label" for="addressQuery">¿Dónde estás o adónde vas?</label><div class="address-row"><input class="address-input" id="addressQuery" type="search" placeholder="Ej. Córdoba 1200, Rosario" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="addressSuggestions" aria-expanded="false" required><button class="address-button" type="submit">Buscar</button></div><ul class="suggestions" id="addressSuggestions" role="listbox" hidden></ul><button class="gps-button" type="button">Usar mi ubicación actual</button><div class="address-status" aria-live="polite"></div></form>
       <div class="filters"><button class="filter m1" data-micro="1" aria-pressed="true">Micro 1<small>31 paradas</small></button><button class="filter m2" data-micro="2" aria-pressed="true">Micro 2<small>36 paradas</small></button></div>
-      <input class="search" type="search" placeholder="Buscar calle o parada…" aria-label="Buscar parada">
+      <input class="search" type="search" placeholder="Filtrar la lista de paradas…" aria-label="Filtrar paradas">
     </header>
     <div class="list" aria-live="polite"></div>
     <div class="note">Las ubicaciones se calcularon con OpenStreetMap. Las paradas 29 a 33 del Micro 2 tienen servicio restringido según el PDF.</div>
   </aside>
-  <section style="position:relative"><div id="map" aria-label="Mapa de paradas"></div><div class="key"><span class="dot" style="background:var(--m1)"></span>Micro 1&nbsp;&nbsp;<span class="dot" style="background:var(--m2)"></span>Micro 2</div></section>
+  <section class="map-panel" style="position:relative"><div id="map" aria-label="Mapa de paradas"></div><div class="key"><span class="dot" style="background:var(--m1)"></span>Micro 1&nbsp;&nbsp;<span class="dot" style="background:var(--m2)"></span>Micro 2</div></section>
+  <nav class="mobile-tabs" aria-label="Vista móvil"><button class="mobile-tab" type="button" data-view="stops" aria-pressed="true">Paradas</button><button class="mobile-tab" type="button" data-view="map" aria-pressed="false">Mapa</button></nav>
 </main>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -51,15 +54,104 @@ for(const s of raw){
   markers.set(`${s.micro}-${s.number}`,marker);
 }
 map.fitBounds(L.latLngBounds(raw.map(s=>[s.lat,s.lng])),{padding:[35,35]});
-const active={1:true,2:true}, list=document.querySelector('.list'), search=document.querySelector('.search');
+const app=document.querySelector('.app'), active={1:true,2:true}, list=document.querySelector('.list'), search=document.querySelector('.search');
+const addressForm=document.querySelector('.address-form'), addressInput=document.querySelector('.address-input'), addressButton=document.querySelector('.address-button'), gpsButton=document.querySelector('.gps-button'), addressStatus=document.querySelector('.address-status'), suggestionsEl=document.querySelector('.suggestions');
+const locationLayer=L.layerGroup().addTo(map);
+let selectedLocation=null, suggestions=[], activeSuggestion=-1, autocompleteTimer, autocompleteController;
+const escapeHtml=value=>String(value).replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+function formatAddress(feature){
+  const p=feature.properties||{}, street=[p.street,p.housenumber].filter(Boolean).join(' '), main=p.name||street||p.city||'Ubicación';
+  const detail=[p.name&&street?street:null,p.city,p.state].filter((value,index,array)=>value&&array.indexOf(value)===index).join(', ');
+  return{lat:feature.geometry.coordinates[1],lng:feature.geometry.coordinates[0],main,detail,label:[main,detail].filter(Boolean).join(', ')};
+}
+async function fetchAddresses(query,limit=5){
+  if(autocompleteController)autocompleteController.abort();
+  autocompleteController=new AbortController();
+  const params=new URLSearchParams({q:`${query}, Rosario, Santa Fe, Argentina`,limit:String(limit),lat:'-32.95',lon:'-60.66',bbox:'-60.85,-33.1,-60.55,-32.7'});
+  const response=await fetch(`https://photon.komoot.io/api/?${params}`,{signal:autocompleteController.signal});
+  if(!response.ok)throw new Error('network');
+  const data=await response.json();
+  return(data.features||[]).map(formatAddress);
+}
+function closeSuggestions(){suggestionsEl.hidden=true;suggestionsEl.innerHTML='';suggestions=[];activeSuggestion=-1;addressInput.setAttribute('aria-expanded','false');addressInput.removeAttribute('aria-activedescendant')}
+function renderSuggestions(message){
+  if(message){suggestionsEl.innerHTML=`<li class="suggestion-message">${escapeHtml(message)}</li>`}
+  else suggestionsEl.innerHTML=suggestions.map((item,index)=>`<li role="option" aria-selected="${index===activeSuggestion}" id="address-option-${index}"><button class="suggestion${index===activeSuggestion?' active':''}" type="button" data-index="${index}"><span class="suggestion-main">${escapeHtml(item.main)}</span><span class="suggestion-detail">${escapeHtml(item.detail)}</span></button></li>`).join('');
+  suggestionsEl.hidden=false;addressInput.setAttribute('aria-expanded','true');
+  if(activeSuggestion>=0)addressInput.setAttribute('aria-activedescendant',`address-option-${activeSuggestion}`);else addressInput.removeAttribute('aria-activedescendant');
+}
+function selectSuggestion(index){
+  const item=suggestions[index];if(!item)return;
+  addressInput.value=item.label;closeSuggestions();showLocation(item.lat,item.lng,item.label);
+}
+async function loadSuggestions(query){
+  renderSuggestions('Buscando direcciones…');
+  try{suggestions=await fetchAddresses(query);activeSuggestion=-1;renderSuggestions(suggestions.length?'':'No encontramos coincidencias.')}
+  catch(error){if(error.name!=='AbortError')renderSuggestions('No se pudieron cargar las sugerencias.')}
+}
+function distanceKm(a,b){
+  const rad=n=>n*Math.PI/180, earth=6371, dLat=rad(b.lat-a.lat), dLng=rad(b.lng-a.lng);
+  const h=Math.sin(dLat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLng/2)**2;
+  return 2*earth*Math.asin(Math.sqrt(h));
+}
+function distanceLabel(km){return km<1?`${Math.round(km*1000)} m`:`${km.toFixed(1).replace('.',',')} km`}
+function showLocation(lat,lng,label){
+  selectedLocation={lat,lng,label};
+  locationLayer.clearLayers();
+  L.circle([lat,lng],{radius:1500,color:'#276fbf',weight:1,fillColor:'#4f9de8',fillOpacity:.08}).addTo(locationLayer);
+  L.circleMarker([lat,lng],{radius:9,color:'#fff',weight:3,fillColor:'#276fbf',fillOpacity:1}).bindPopup(`<div class="popup"><b>Tu ubicación</b><p>${escapeHtml(label)}</p></div>`).addTo(locationLayer).openPopup();
+  map.setView([lat,lng],13,{animate:true});
+  addressStatus.innerHTML=`Ubicación encontrada. Paradas ordenadas por distancia. <button class="clear-location" type="button">Quitar ubicación</button>`;
+  render();
+}
+function clearLocation(){
+  selectedLocation=null;locationLayer.clearLayers();addressStatus.textContent='';addressInput.value='';
+  map.fitBounds(L.latLngBounds(raw.map(s=>[s.lat,s.lng])),{padding:[35,35]});render();
+}
 function render(){
   const q=search.value.trim().toLocaleLowerCase('es');
-  const shown=raw.filter(s=>active[s.micro]&&s.name.toLocaleLowerCase('es').includes(q));
-  list.innerHTML=shown.map(s=>`<button class="stop m${s.micro}" data-key="${s.micro}-${s.number}"><span class="badge">${s.number}</span><span><span class="stop-name">${s.name}</span><span class="stop-meta">Micro ${s.micro}${s.restricted?' · <span class="restricted">servicio restringido</span>':''}</span></span></button>`).join('')||'<p style="padding:12px;color:var(--muted);font-size:13px">No se encontraron paradas.</p>';
+  let shown=raw.filter(s=>active[s.micro]&&s.name.toLocaleLowerCase('es').includes(q)).map(s=>selectedLocation?{...s,distance:distanceKm(selectedLocation,s)}:s);
+  if(selectedLocation)shown.sort((a,b)=>a.distance-b.distance).splice(10);
+  list.innerHTML=shown.map(s=>`<button class="stop m${s.micro}" data-key="${s.micro}-${s.number}"><span class="badge">${s.number}</span><span><span class="stop-name">${s.name}</span><span class="stop-meta">Micro ${s.micro}${s.distance!==undefined?` · <span class="distance">a ${distanceLabel(s.distance)}</span>`:''}${s.restricted?' · <span class="restricted">servicio restringido</span>':''}</span></span></button>`).join('')||'<p style="padding:12px;color:var(--muted);font-size:13px">No se encontraron paradas.</p>';
+}
+function setMobileView(view){
+  app.classList.toggle('mobile-map',view==='map');
+  document.querySelectorAll('.mobile-tab').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===view)));
+  if(view==='map')setTimeout(()=>{map.invalidateSize();selectedLocation?map.setView([selectedLocation.lat,selectedLocation.lng],13):map.fitBounds(L.latLngBounds(raw.map(s=>[s.lat,s.lng])),{padding:[35,35]})},50);
 }
 document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{const m=+btn.dataset.micro;active[m]=!active[m];btn.setAttribute('aria-pressed',active[m]);active[m]?groups[m].addTo(map):groups[m].removeFrom(map);render()}));
+document.querySelectorAll('.mobile-tab').forEach(button=>button.addEventListener('click',()=>setMobileView(button.dataset.view)));
 search.addEventListener('input',render);
-list.addEventListener('click',e=>{const btn=e.target.closest('.stop');if(!btn)return;list.querySelectorAll('.stop').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const marker=markers.get(btn.dataset.key);map.setView(marker.getLatLng(),16,{animate:true});marker.openPopup()});
+list.addEventListener('click',e=>{const btn=e.target.closest('.stop');if(!btn)return;list.querySelectorAll('.stop').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const marker=markers.get(btn.dataset.key);if(matchMedia('(max-width:760px)').matches){setMobileView('map');setTimeout(()=>{map.setView(marker.getLatLng(),16,{animate:true});marker.openPopup()},100)}else{map.setView(marker.getLatLng(),16,{animate:true});marker.openPopup()}});
+addressInput.addEventListener('input',()=>{
+  clearTimeout(autocompleteTimer);const query=addressInput.value.trim();
+  if(query.length<4){closeSuggestions();return}
+  autocompleteTimer=setTimeout(()=>loadSuggestions(query),350);
+});
+addressInput.addEventListener('keydown',e=>{
+  if(suggestionsEl.hidden||!suggestions.length)return;
+  if(e.key==='ArrowDown'){e.preventDefault();activeSuggestion=Math.min(activeSuggestion+1,suggestions.length-1);renderSuggestions()}
+  else if(e.key==='ArrowUp'){e.preventDefault();activeSuggestion=Math.max(activeSuggestion-1,0);renderSuggestions()}
+  else if(e.key==='Enter'&&activeSuggestion>=0){e.preventDefault();selectSuggestion(activeSuggestion)}
+  else if(e.key==='Escape')closeSuggestions();
+});
+suggestionsEl.addEventListener('click',e=>{const button=e.target.closest('.suggestion');if(button)selectSuggestion(Number(button.dataset.index))});
+document.addEventListener('click',e=>{if(!addressForm.contains(e.target))closeSuggestions()});
+addressForm.addEventListener('submit',async e=>{
+  e.preventDefault();const query=addressInput.value.trim();if(!query)return;
+  clearTimeout(autocompleteTimer);addressButton.disabled=true;addressStatus.textContent='Buscando dirección…';
+  try{
+    const results=await fetchAddresses(query,1);if(!results.length)throw new Error('not-found');
+    addressInput.value=results[0].label;closeSuggestions();showLocation(results[0].lat,results[0].lng,results[0].label);
+  }catch(error){addressStatus.textContent=error.message==='not-found'?'No encontramos esa dirección. Probá agregando calle y altura.':'No se pudo consultar la dirección. Revisá tu conexión e intentá nuevamente.'}
+  finally{addressButton.disabled=false}
+});
+gpsButton.addEventListener('click',()=>{
+  if(!navigator.geolocation){addressStatus.textContent='Este navegador no permite obtener tu ubicación.';return}
+  gpsButton.disabled=true;addressStatus.textContent='Obteniendo tu ubicación…';
+  navigator.geolocation.getCurrentPosition(position=>{gpsButton.disabled=false;showLocation(position.coords.latitude,position.coords.longitude,'Ubicación actual')},error=>{gpsButton.disabled=false;addressStatus.textContent=error.code===1?'Necesitamos permiso de ubicación para usar esta función.':'No pudimos obtener tu ubicación actual.'},{enableHighAccuracy:true,timeout:10000,maximumAge:60000});
+});
+addressStatus.addEventListener('click',e=>{if(e.target.closest('.clear-location'))clearLocation()});
 render();
 </script>
 </body>
